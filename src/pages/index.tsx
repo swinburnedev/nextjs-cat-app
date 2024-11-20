@@ -26,7 +26,7 @@ export default function Home() {
         <Layout>
             <div className="container flex flex-wrap">
                 {catImages.map(({id, url, width, height}) => {
-                    return <ImageCard key={id} id={id} url={url} width={width} height={height} />
+                    return <ImageCard key={id} id={id} isFavourite={false} url={url} width={width} height={height} />
                 })}
             </div>
         </Layout>

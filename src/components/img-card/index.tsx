@@ -19,7 +19,7 @@ const ImageCard = ({id, isFavourite, url, width, height}: ImageCardProps) => {
         try {
             await fetch("https://api.thecatapi.com/v1/favourites", {
                 method: "POST",
-                headers: {"x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY, "Content-Type": "application/json"},
+                headers: {"x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || ""},
                 body,
             }).then(response => {
                 if (response.ok) {

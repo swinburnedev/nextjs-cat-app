@@ -3,6 +3,7 @@ import Layout from "@/components/layout"
 const Upload = () => {
     const handleUpload = () => {
         const fileInput = document.querySelector('input[type="file"]')
+        // @ts-expect-error Property 'files' does not exist on type 'Element'
         const file = fileInput.files[0]
         const formData = new FormData()
         formData.append("file", file)
@@ -11,7 +12,7 @@ const Upload = () => {
             method: "POST",
             body: formData,
             headers: {
-                "x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY,
+                "x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || "",
             },
         })
     }
