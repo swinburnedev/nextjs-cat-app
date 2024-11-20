@@ -23,7 +23,7 @@ export default function Home() {
         // if error, redirect to error page
     }, [])
     return (
-        <Layout>
+        <Layout title="Home">
             <div className="container flex flex-wrap">
                 {catImages.map(({id, url, width, height}) => {
                     return <ImageCard key={id} id={id} isFavourite={false} url={url} width={width} height={height} />

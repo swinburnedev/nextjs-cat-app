@@ -19,15 +19,20 @@ const ImageCard = ({id, isFavourite, url, width, height}: ImageCardProps) => {
         try {
             await fetch("https://api.thecatapi.com/v1/favourites", {
                 method: "POST",
-                headers: {"x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || ""},
+                headers: {
+                    "x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || "",
+                    "Content-Type": "application/json",
+                },
                 body,
             }).then(response => {
                 if (response.ok) {
                     setFavourite(!favourite)
+                } else {
+                    throw new Error(`Failed to set favourite ${id}`)
                 }
             })
         } catch (error) {
-            console.error(`Error setting favourite ${id}`, error)
+            console.error(error)
         }
     }
     return (

@@ -17,7 +17,7 @@ const Upload = () => {
         })
     }
     return (
-        <Layout>
+        <Layout title="Upload">
             <form onSubmit={handleUpload}>
                 <input type="file" accept="image/*" />
                 <button type="submit">Upload</button>
