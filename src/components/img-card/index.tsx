@@ -59,26 +59,37 @@ const ImageCard = ({id, url, width, height}: ImageCardProps) => {
     }
     return (
         <div className="mb-4 px-2 relative w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
-            <Image src={url} alt={id} className="w-96 h-96 object-cover rounded-lg" width={width} height={height} />
-            <span className="absolute bottom-2 w-full flex justify-between">
-                {score}
-                <button onClick={() => handleVote(score + 1)} title="Vote up">
-                    <ArrowUp className="drop-shadow-lg" />
-                    <span className="sr-only">Vote up</span>
-                </button>
-                <button onClick={() => handleVote(score - 1)} title="Vote down">
-                    <ArrowDown className="drop-shadow-lg" />
-                    <span className="sr-only">Vote down</span>
-                </button>
-                <button onClick={() => handleFavourite()} title={`${favourite ? "Unfavourite" : "Favourite"} ${id}`}>
-                    <Heart
-                        className="drop-shadow-lg"
-                        fill={`${favourite ? "red" : "none"}`}
-                        stroke={`${favourite ? "red" : "white"}`}
-                    />
-                    <span className="sr-only">{favourite ? "Unfavourite" : "Favourite"}</span>
-                </button>
-            </span>
+            <div className="flex flex-col gap-1">
+                <Image
+                    src={url}
+                    alt={id}
+                    className="w-full object-cover rounded-lg aspect-square"
+                    width={width}
+                    height={height}
+                />
+                <div className="flex justify-between px-2">
+                    Score: {score}
+                    <button onClick={() => handleVote(score + 1)} title="Vote up">
+                        <ArrowUp className="drop-shadow-lg" />
+                        <span className="sr-only">Vote up</span>
+                    </button>
+                    <button onClick={() => handleVote(score - 1)} title="Vote down">
+                        <ArrowDown className="drop-shadow-lg" />
+                        <span className="sr-only">Vote down</span>
+                    </button>
+                    <button
+                        onClick={() => handleFavourite()}
+                        title={`${favourite ? "Unfavourite" : "Favourite"} ${id}`}
+                    >
+                        <Heart
+                            className="drop-shadow-lg"
+                            fill={`${favourite ? "red" : "none"}`}
+                            stroke={`${favourite ? "red" : "black"}`}
+                        />
+                        <span className="sr-only">{favourite ? "Unfavourite" : "Favourite"}</span>
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }
