@@ -4,6 +4,8 @@ import {useRouter} from "next/router"
 import {useState} from "react"
 
 import Layout from "@/components/layout"
+import {apiPost} from "@/libs/api"
+import {subId} from "@/libs/users"
 
 interface UploadImage {
     url: string
@@ -26,14 +28,9 @@ const Upload = () => {
         setFile(fileObj)
         const formData = new FormData()
         formData.append("file", fileObj)
+        formData.append("sub_id", subId)
 
-        const upload = await fetch("https://api.thecatapi.com/v1/images/upload", {
-            method: "POST",
-            body: formData,
-            headers: {
-                "x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || "",
-            },
-        })
+        const upload = await apiPost("images/upload", formData, "multipart/form-data")
             .then(response => {
                 if (response.ok) {
                     return response.json()

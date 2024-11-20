@@ -2,27 +2,19 @@ import {Heart, ArrowUp, ArrowDown} from "lucide-react"
 import Image from "next/image"
 import {useState} from "react"
 
+import {apiPost} from "@/libs/api"
+
 interface ImageCardProps {
     id: string
     height: number
+    score: number
     url: string
     width: number
 }
 
-const apiPost = async (endpoint: string, body: string) => {
-    return await fetch(`https://api.thecatapi.com/v1/${endpoint}`, {
-        method: "POST",
-        headers: {
-            "x-api-key": process.env.NEXT_PUBLIC_CAT_API_KEY || "",
-            "Content-Type": "application/json",
-        },
-        body,
-    })
-}
-
-const ImageCard = ({id, url, width, height}: ImageCardProps) => {
+const ImageCard = ({id, url, width, height, score: initialScore}: ImageCardProps) => {
     const [favourite, setFavourite] = useState(false)
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState(initialScore)
     const handleFavourite = async () => {
         const body = JSON.stringify({
             image_id: id,
@@ -58,7 +50,7 @@ const ImageCard = ({id, url, width, height}: ImageCardProps) => {
         }
     }
     return (
-        <div className="mb-4 px-2 relative w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
+        <div className="mb-6 px-2 relative w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
             <div className="flex flex-col gap-1">
                 <Image
                     src={url}
@@ -68,7 +60,9 @@ const ImageCard = ({id, url, width, height}: ImageCardProps) => {
                     height={height}
                 />
                 <div className="flex justify-between px-2">
-                    Score: {score}
+                    <p className="font-bold">
+                        Score: <span className="font-light">{score}</span>
+                    </p>
                     <button onClick={() => handleVote(score + 1)} title="Vote up">
                         <ArrowUp className="drop-shadow-lg" />
                         <span className="sr-only">Vote up</span>
