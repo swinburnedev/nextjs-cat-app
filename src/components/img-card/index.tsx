@@ -19,34 +19,24 @@ const ImageCard = ({id, url, width, height, score: initialScore}: ImageCardProps
         const body = JSON.stringify({
             image_id: id,
         })
-        try {
-            await apiPost("favourites", body).then(response => {
-                if (response.ok) {
-                    setFavourite(!favourite)
-                } else {
-                    throw new Error(`Failed to set favourite ${id}`)
-                }
-            })
-        } catch (error) {
+        const favouriteResponse = await apiPost("favourites", body).catch(error => {
             console.error(error)
+        })
+        if (favouriteResponse) {
+            setFavourite(!favourite)
         }
     }
+
     const handleVote = async (value: number) => {
         const body = JSON.stringify({
             image_id: id,
             value: value,
         })
-        try {
-            const vote = await apiPost("votes", body).then(response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    throw new Error(`Failed to set score ${id}`)
-                }
-            })
-            setScore(vote.value)
-        } catch (error) {
-            console.error(error)
+        const vote = await apiPost("votes", body).catch(error => {
+            console.error(`Failed to vote ${id}. Error: ${error}`)
+        })
+        if (vote && vote.data) {
+            setScore(vote.data.value)
         }
     }
     return (

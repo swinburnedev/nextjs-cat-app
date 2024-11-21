@@ -15,8 +15,8 @@ interface UploadImage {
 
 const Upload = () => {
     const router = useRouter()
+	const [apiError, setApiError] = useState(false)
     const [formSubmitted, setFormSubmitted] = useState(false)
-
     const [file, setFile] = useState<File | null>(null)
     const [previewImage, setPreviewImage] = useState<UploadImage | null>(null)
 
@@ -30,20 +30,12 @@ const Upload = () => {
         formData.append("file", fileObj)
         formData.append("sub_id", subId)
 
-        const upload = await apiPost("images/upload", formData, "multipart/form-data")
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    throw new Error("Failed to upload image")
-                }
-            })
-            .catch(error => {
-                console.error(error)
-            })
-
-        if (upload) {
-            setPreviewImage(upload)
+        const upload = await apiPost("images/upload", formData, "multipart/form-data").catch(error => {
+            console.error(error)
+            if (fileObj) setApiError(true)
+        })
+        if (upload && upload.data) {
+            setPreviewImage(upload.data)
             setTimeout(() => {
                 router.push("/")
             }, 3000)
@@ -57,8 +49,16 @@ const Upload = () => {
                 <label className="block font-medium" htmlFor="file">
                     File:
                 </label>
-                {formSubmitted && !file && <p className="text-red-600">Please select a valid file</p>}
-                <input type="file" accept="image/*" onChange={() => setFormSubmitted(false)} />
+                {apiError && <p className="text-red-600">Error submitting upload. Please try again.</p>}
+                {!apiError && formSubmitted && !file && <p className="text-red-600">Please select a valid file</p>}
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={() => {
+                        setApiError(false)
+                        setFormSubmitted(false)
+                    }}
+                />
                 <button
                     type="submit"
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
@@ -72,6 +72,7 @@ const Upload = () => {
                     <h2 className="block font-bold">Preview:</h2>
                     <p>Redirecting to home page in 3 seconds...</p>
                     <Image
+                        className="mb-6 h-96 w-96 object-cover rounded-lg aspect-square"
                         src={previewImage.url}
                         height={previewImage.height}
                         width={previewImage.width}

@@ -11,7 +11,7 @@ const Layout = ({children, title}: {children: React.ReactNode; title: string}) =
                 <meta name="description" content="A simple cat feed app" />
             </Head>
             <Header />
-            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">{children}</main>
+            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start min-h-60">{children}</main>
             <Footer />
         </div>
     )
