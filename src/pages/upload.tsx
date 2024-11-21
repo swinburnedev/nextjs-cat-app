@@ -45,7 +45,7 @@ const Upload = () => {
     return (
         <Layout title="Upload">
             <h2 className="block font-bold">Upload a cat image</h2>
-            <form action={handleUpload}>
+            <form action={handleUpload} className="flex flex-col gap-6 px-6 lg:px-0">
                 <label className="block font-medium" htmlFor="file">
                     File:
                 </label>
@@ -61,14 +61,14 @@ const Upload = () => {
                 />
                 <button
                     type="submit"
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center w-fit"
                 >
                     <ImageUp className="pr-2" />
                     <span>Upload</span>
                 </button>
             </form>
             {previewImage && (
-                <>
+                <div className="flex flex-col gap-1 px-6 lg:px-0">
                     <h2 className="block font-bold">Preview:</h2>
                     <p>Redirecting to home page in 3 seconds...</p>
                     <Image
@@ -78,7 +78,7 @@ const Upload = () => {
                         width={previewImage.width}
                         alt="Preview"
                     />
-                </>
+                </div>
             )}
         </Layout>
     )
